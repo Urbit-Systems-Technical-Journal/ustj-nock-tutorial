@@ -11,7 +11,10 @@
 \usepackage{mathspec}
 \setmathtt[Scale=MatchLowercase]{Urbit Sans Mono TT SemiBold}
 \usepackage[osf]{libertineRoman}
-\newfontfamily\monofont{Urbit Sans Mono TT SemiBold}[Scale=MatchLowercase]
+\newfontfamily\monofont{Urbit Sans Mono TT SemiBold}[
+  Scale=MatchLowercase,
+  % BoldFont=Urbit Sans Mono TT Light,
+  ]
 \renewcommand{\setmonofont}{\monofont}
 \renewcommand{\texttt}[1]{{\monofont #1}}
 % Define a new font family for small caps with FakeSlant
@@ -68,7 +71,8 @@
     breaklines=true,
     breakatwhitespace=true,
     commentstyle=\color{darkgray}\emph,
-    keywordstyle=\bfseries
+    keywordstyle=\bfseries,
+    moredelim=[is][\underline]{@}{@}
 }
 \lstdefinestyle{listingcode}{
     language=Hoon,
@@ -85,7 +89,8 @@
     breaklines=true,
     breakatwhitespace=true,
     commentstyle=\color{darkgray}\emph,
-    keywordstyle=\color{darkgray}\bfseries
+    keywordstyle=\bfseries,
+    moredelim=[is][\underline]{@}{@}
 }
 \lstdefinestyle{listingblock}{
     language=Hoon,
