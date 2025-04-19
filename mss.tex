@@ -186,103 +186,76 @@ This permits the address to be defined within a particular subtree as well as wi
 \begin{figure}[hbt!]
   \centering
   \caption{A binary tree with labeled node addresses to several layers. \label{fig:treefull}}
-  {
-    \begin{tikzpicture}
-    [->,>=stealth',level 1/.style={sibling distance = 8cm/#1, level distance = 1.5cm},level 2/.style={sibling distance = 4cm/#1, level distance = 1.5cm},level 3/.style={sibling distance = 2cm/#1, level distance = 1.5cm},level 4/.style={sibling distance = 1cm/#1, level distance = 1.5cm},scale=0.6, transform shape]
+  \begin{tikzpicture}[
+    ->, >=stealth,
+    level 1/.style={sibling distance=8cm, level distance=1.5cm},
+    level 2/.style={sibling distance=4cm, level distance=1.5cm},
+    level 3/.style={sibling distance=2cm, level distance=1.5cm},
+    level 4/.style={sibling distance=1cm, level distance=1.5cm},
+    scale=0.6, transform shape,
+    subtree/.style={circle, draw, fill=gray!20, minimum size=1cm},
+    treenode/.style={circle, draw, fill=white, minimum size=1cm}
+  ]
     \node [subtree] {\Large 1}
     child {
-      node [subtree] {\Large 2} 
+      node [subtree] {\Large 2}
       child {
-        node [subtree] {\Large 4} 
+        node [subtree] {\Large 4}
         child {
-          node [subtree] {\Large 8} 
-          child {
-            node [treenode] {\Large 16} 
-            }
-          child {
-            node [treenode] {\Large 17} 
-          }
-          }
+          node [subtree] {\Large 8}
+          child { node [treenode] {\Large 16} }
+          child { node [treenode] {\Large 17} }
+        }
         child {
-          node [subtree] {\Large 9} 
-          child {
-            node [treenode] {\Large 18} 
-          }
-          child {
-            node [treenode] {\Large 19} 
-          }
-          }
-          }
+          node [subtree] {\Large 9}
+          child { node [treenode] {\Large 18} }
+          child { node [treenode] {\Large 19} }
+        }
+      }
       child {
-        node [subtree] {\Large 5} 
+        node [subtree] {\Large 5}
         child {
-          node [subtree] {\Large 10} 
-          child {
-            node [treenode] {\Large 20} 
-          }
-          child {
-            node [treenode] {\Large 21} 
-          }
+          node [subtree] {\Large 10}
+          child { node [treenode] {\Large 20} }
+          child { node [treenode] {\Large 21} }
         }
         child {
-          node [subtree] {\Large 11} 
-          child {
-            node [treenode] {\Large 22} 
-          }
-          child {
-            node [treenode] {\Large 23} 
-          }
-        }
-          }
-    }
-    child {
-      node [subtree] {\Large 3} 
-      child {
-        node [subtree] {\Large 6} 
-        child {
-          node [subtree] {\Large 12} 
-          child {
-            node [treenode] {\Large 24} 
-          }
-          child {
-            node [treenode] {\Large 25} 
-          }
-        }
-        child {
-          node [subtree] {\Large 13} 
-          child {
-            node [treenode] {\Large 26} 
-          }
-          child {
-            node [treenode] {\Large 26} 
-          }
-        }
-    }
-      child {
-        node [subtree] {\Large 7} 
-        child {
-          node [subtree] {\Large 14} 
-          child {
-            node [treenode] {\Large 28} 
-          }
-          child {
-            node [treenode] {\Large 29} 
-          }
-        }
-        child {
-          node [subtree] {\Large 15} 
-          child {
-            node [treenode] {\Large 30} 
-          }
-          child {
-            node [treenode] {\Large 31} 
-          }
+          node [subtree] {\Large 11}
+          child { node [treenode] {\Large 22} }
+          child { node [treenode] {\Large 23} }
         }
       }
     }
-    ;
-    \end{tikzpicture}
-  }
+    child {
+      node [subtree] {\Large 3}
+      child {
+        node [subtree] {\Large 6}
+        child {
+          node [subtree] {\Large 12}
+          child { node [treenode] {\Large 24} }
+          child { node [treenode] {\Large 25} }
+        }
+        child {
+          node [subtree] {\Large 13}
+          child { node [treenode] {\Large 26} }
+          child { node [treenode] {\Large 27} } % Fixed duplicate 26 to 27
+        }
+      }
+      child {
+        node [subtree] {\Large 7}
+        child {
+          node [subtree] {\Large 14}
+          child { node [treenode] {\Large 28} }
+          child { node [treenode] {\Large 29} }
+        }
+        child {
+          node [subtree] {\Large 15}
+          child { node [treenode] {\Large 30} }
+          child { node [treenode] {\Large 31} }
+        }
+      }
+    };
+  \end{tikzpicture}
 \end{figure}
 
 That is, how do you say which slot number you want from a given tree?  We say that:
@@ -309,26 +282,26 @@ Diagrammatically, the tree looks like Figure \ref{fig:tree45}.
     [->,>=stealth',level/.style={sibling distance = 5cm/#1, level distance = 1.5cm},scale=0.6, transform shape]
     \node [subtree] {\Large 1}
     child {
-      node [subtree] {\Large 2} 
+      node [subtree] {\Large 2}
       child {
-        node [treenode] {\Large 4} 
+        node [treenode] {\Large 4}
       }
       child {
-        node [treenode] {\Large 5} 
+        node [treenode] {\Large 5}
       }
     }
     child {
-      node [subtree] {\Large 3} 
+      node [subtree] {\Large 3}
       child {
-        node [treenode] {\Large 6} 
+        node [treenode] {\Large 6}
       }
       child {
-        node [subtree] {\Large 7} 
+        node [subtree] {\Large 7}
         child {
-          node [treenode] {\Large 14} 
+          node [treenode] {\Large 14}
         }
         child {
-          node [treenode] {\Large 15} 
+          node [treenode] {\Large 15}
         }
       }
     }
@@ -488,7 +461,7 @@ In English, this says “when we have subject \lstinline[style=inlinecode]{a}, f
 If we contrast with \lstinline[style=inlinecode]{@0@} and \lstinline[style=inlinecode]{@1@}, we see that the right side has a \lstinline[style=inlinecode]{*} symbol. This symbol means “evaluate the expression again in the Nock interpreter.” \lstinline[style=inlinecode]{@0@} and \lstinline[style=inlinecode]{@1@} \emph{did not} have this symbol, and that's why they couldn't evaluate nested Nock expressions.
 
 \subsubsection{Example:  Walking Through Increment}
-  
+
 Let's start by translating the Dojo's \lstinline[style=inlinecode]{.*(subject formula)} to pseudocode of the form \lstinline[style=inlinecode]{*[a b]}, and then expand it line by line:
 
 \begin{lstlisting}[style=listingcode]
@@ -535,7 +508,7 @@ This one is similar, we just have an extra \lstinline[style=inlinecode]{@4@}. We
 +(51)
 52
 \end{lstlisting}
-  
+
 \subsubsection{Example:  Walking Through Serial Increment}
 
 Here we again see lots of \lstinline[style=inlinecode]{@4@}s applied consecutively, and we also see how we can yank values out of a more complicated subject and manipulate them. Notice how the subject is a cell, not an atom. The rest is the same as in the previous example.
@@ -746,7 +719,7 @@ There are some new pseudocode symbols here that we need to translate into Englis
 > .*([[50 51] 52] [[@3@ @0@ 2] [@3@ @0@ 3]])
 [0 1]
 *[[[50 51] 52] [[@3@ @0@ 2] [@3@ @0@ 3]]]
-?[*[[50 51] 52] [@0@ 2]] 
+?[*[[50 51] 52] [@0@ 2]]
    *[[50 51] [@0@ 3]]]
 :: yank memory slots 2 and 3
 ?*[[50 51] 52]
@@ -792,10 +765,10 @@ Because \lstinline[style=inlinecode]{@5@} compares the results of 2 formulas, it
 :: PSEUDOCODE
 *[[50 51] [@5@ [@4@ @0@ 2] [@0@ 3]]]
 :: factor out the =
-=[*[[50 51] [@4@ @0@ 2]] 
+=[*[[50 51] [@4@ @0@ 2]]
    *[[50 51] [@0@ 3]]]
 :: factor out the +
-=[+*[[50 51] [@0@ 2]] 
+=[+*[[50 51] [@0@ 2]]
     *[[50 51] [@0@ 3]]]
 :: get memory slots 2 and 3
 =[+50 51]
@@ -1002,7 +975,7 @@ The remaining Nock opcodes are ``sugar''.  This means that the functions in this
 The prose explanation of what's happening is straightforward:
 
 \begin{enumerate}
-  \item  Evaluate \lstinline[style=inlinecode]{b} against the subject \lstinline[style=inlinecode]{a} (\lstinline[style=inlinecode]{*[a b]}) to see whether it's \lstinline[style=inlinecode]{0}/true or \lstinline[style=inlinecode]{1}/false. 
+  \item  Evaluate \lstinline[style=inlinecode]{b} against the subject \lstinline[style=inlinecode]{a} (\lstinline[style=inlinecode]{*[a b]}) to see whether it's \lstinline[style=inlinecode]{0}/true or \lstinline[style=inlinecode]{1}/false.
   \item  If \lstinline[style=inlinecode]{b} equals \lstinline[style=inlinecode]{0}/true, run formula \lstinline[style=inlinecode]{c} against subject \lstinline[style=inlinecode]{a}.
   \item  If \lstinline[style=inlinecode]{b} equals \lstinline[style=inlinecode]{1}/false, run formula \lstinline[style=inlinecode]{d} against subject \lstinline[style=inlinecode]{a}.
   \item  If \lstinline[style=inlinecode]{b} is not equal to \lstinline[style=inlinecode]{0} or \lstinline[style=inlinecode]{1}, the code crashes, for reasons we'll see in the code explanation.
@@ -1159,7 +1132,7 @@ If you're ever writing Nock and think ``how can I add a new variable to the subj
 *[a @8@ b c]          *[[*[a b] a] c]
 \end{lstlisting}
 
-This is saying to run \lstinline[style=inlinecode]{*[a b]}, and then make that the head of a new subject, with the old subject \lstinline[style=inlinecode]{a} as the new subject's tail.
+This says to run \lstinline[style=inlinecode]{*[a b]}, and then make that the head of a new subject, with the old subject \lstinline[style=inlinecode]{a} as the new subject's tail.
 
 \subsubsection{Example: Add Variable as a Copied Value from an Existing Subject}
 
@@ -1328,9 +1301,7 @@ We will defer discussion of opcode \lstinline[style=inlinecode]{@11@} to a later
 
 \subsubsection{Towards Hoon}
 
-If ``grab a chunk of code from a subject and then run it against the subject" sounds a lot like getting an arm from a core in Hoon, that's because it is.
-
-The ``new subjects" created by \lstinline[style=inlinecode]{*[a c]} are cores, and the things selected from memory slots by \lstinline[style=inlinecode]{b} are arms.
+If ``grab a chunk of code from a subject and then run it against the subject" sounds a lot like getting an arm from a core in Hoon, that's because it is.  Nock opcode \lstinline[style=inlinecode]{@9@} is hand-in-glove with Hoon's core/arm structure.  The ``new subjects" created by \lstinline[style=inlinecode]{*[a c]} are cores, and the things selected from memory slots by \lstinline[style=inlinecode]{b} are arms.
 
 \subsection{Real Nock Code}
 
@@ -1353,14 +1324,14 @@ To finish this off and take your new powers for a spin, let's look at some real 
 \noindent{}
 So we:
 
-
 \begin{enumerate}
-  \item  Assign the mold gate \lstinline[style=inlinecode]{?} to the face \lstinline[style=inlinecode]{boolean-mold}.
-  \item  Take a look at what's inside it...looks like the head is an arm...let's print out its source code!
+  \item  Assign the mold gate denoted by \lstinline[style=inlinecode]{?} to the face \lstinline[style=inlinecode]{boolean-mold}.
+  \item  Examine what's inside, seeing that the head is an arm.
   \item  Print out that source code by calling the head.
 \end{enumerate}
 
-So, we know the below code is a gate that evaluates its sample, and returns it if it's a boolean, and crashes otherwise. Let's see how that works.
+\noindent{}
+We know the below code is a gate that evaluates its sample, and returns it if it's a boolean, and crashes otherwise. Let's see how that works.
 
 \begin{lstlisting}[style=listingcode]
 [@6@ [@5@ [@1@ 0] @0@ 6] [@1@ 0] @6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
@@ -1375,11 +1346,11 @@ We start with \lstinline[style=inlinecode]{@6@}, which means this is an if-else.
 
 This compares the quoted value \lstinline[style=inlinecode]{0} (from \lstinline[style=inlinecode]{[@1@ 0]}) with the value at memory slot \lstinline[style=inlinecode]{6} in the subject (\lstinline[style=inlinecode]{[@0@ 6]}).
 
-What is the subject and what is at mem slot \lstinline[style=inlinecode]{6}? This code is the arm of a gate, so the subject is that gate/core: \lstinline[style=inlinecode]{[battery [sample payload]]}. We are looking at the battery right now, and so \lstinline[style=inlinecode]{[@0@ 6]} yanks the head of the tail...the \lstinline[style=inlinecode]{sample}!
+What is the subject and what is at mem slot \lstinline[style=inlinecode]{6}? This code is the arm of a gate, so the subject is that gate/core: \lstinline[style=inlinecode]{[battery [sample payload]]}. We are looking at the battery right now, and so \lstinline[style=inlinecode]{[@0@ 6]} yanks the head of the tail, or the \lstinline[style=inlinecode]{sample}!
 
 We know the sample will be a noun that we're testing for booleanness, so this code starts by seeing whether the sample is the value \lstinline[style=inlinecode]{0}/true. If it is, the next element is \lstinline[style=inlinecode]{[@1@ 0]}, so we return \lstinline[style=inlinecode]{0} if the sample is \lstinline[style=inlinecode]{0}.
 
-Otherwise, we run the 2nd branch of the if-else:
+Otherwise, we run the second branch of the \lstinline[style=inlinecode]{if}–\lstinline[style=inlinecode]{else} conditional:
 
 \begin{lstlisting}[style=listingcode]
 [@6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
@@ -1391,11 +1362,7 @@ If not, it means our input was neither \lstinline[style=inlinecode]{0} nor \lsti
 
 \subsection{Summary}
 
-In this section, we've seen how to use all the remaining opcodes, which build Nock up to a slightly more expressive level. We also saw how Hoon cores start to arise pretty naturally out of the Nock primitives, especially \lstinline[style=inlinecode]{@8@} and \lstinline[style=inlinecode]{@9@}. Then we walked through real production Nock code to show that everything we've learned so far works exactly as expected in the wild.
-
-In the next section, you'll learn how to write real programs in Nock, and compose those programs to make new ones.
-
-Finally, hopefully you now see that, whatever its other limitations, Nock is not particularly obscurantist, and is fairly straightforward to parse, once you understand its syntax and idioms.
+In this section, we've seen how to use almost all of the remaining opcodes, which build Nock up to a slightly more expressive level. We also saw how Hoon cores start to arise pretty naturally out of the Nock primitives, especially \lstinline[style=inlinecode]{@8@} and \lstinline[style=inlinecode]{@9@}. Then we walked through real production Nock code to show that everything we've learned so far works exactly as expected in the wild.  In the next section, you'll learn how to write real programs in Nock, and compose those programs to make new ones.  Finally, hopefully you now see that, whatever its other limitations, Nock is not particularly obscurantist, and is fairly straightforward to parse, once you understand its syntax and idioms.
 
 \section{Interlude}
 
@@ -1423,7 +1390,7 @@ The interpreter can then be thought of as moving left-to-right, expanding accord
 \noindent{}
 Once we get to that last line, \lstinline[style=inlinecode]{++=[/[1 50] *[50 [1 50]]]}, no further expansion into pseudocode is possible.
 
-At this point, the interpreter expands ``inside-out", starting from the furthest inside pseudocode operators. In this case, those are \lstinline[style=inlinecode]{/[1 50]} and \lstinline[style=inlinecode]{50}, so it does those:
+At this point, the interpreter expands ``inside-out", starting from the deepest operators. In this case, those are \lstinline[style=inlinecode]{/[1 50]} and \lstinline[style=inlinecode]{50}, so it does those:
 
 \begin{lstlisting}[style=listingcode]
 ++=[50 50]
@@ -1472,7 +1439,7 @@ This pseudocode lets \lstinline[style=inlinecode]{@11@} handle two separate use 
 Imagine the following Nock:
 
 \begin{lstlisting}[style=listingcode]
-.*([50 51] [11 369 @0@ 2])
+.*([50 51] [@11@ 369 @0@ 2])
 \end{lstlisting}
 
 \noindent{}
@@ -1508,7 +1475,7 @@ In Hoon, you can acquire the Nock code for any function by using the \lstinline[
 
 As you have seen, you can also evaluate raw Nock using the \lstinline[style=inlinecode]{.*} rune, which evaluates to Nock opcode \lstinline[style=inlinecode]{@2@}.  Other Nock runes in Hoon include \lstinline[style=inlinecode]{.+}, which is opcode \lstinline[style=inlinecode]{@4@}; \lstinline[style=inlinecode]{.=}, which is opcode \lstinline[style=inlinecode]{@5@}; and \lstinline[style=inlinecode]{.?}, which is opcode \lstinline[style=inlinecode]{@3@}.  Fake opcode \lstinline[style=inlinecode]{@12@} is not actually Nock, but is used in a virtualization context to resolve values that may not be available in the current subject.
 
-\section{The Core as Design Patterns}
+\section{The Core as Design Pattern}
 
 At this point, you now know everything there is to know about Nock syntax and basic code manipulation.  However, if I asked you to go write a simple program in Nock, you'd probably have a hard time getting started. It's really helpful to see some examples of how Nock programs are designed and patterns that tend to recur in them.
 
@@ -1533,7 +1500,7 @@ Every Nock program is just a formula that takes in a subject (argument). In orde
 The pseudocode for opcode \lstinline[style=inlinecode]{@2@}, this looks like:
 
 \begin{lstlisting}[style=listingcode]
-*[subject 2 formula-to-set-up-core formula-against-the-core]
+*[subject @2@ core-formula call-formula]
 \end{lstlisting}
 
 Almost always, however, we'll use the \lstinline[style=inlinecode]{@9@} opcode (which is sugar on top of \lstinline[style=inlinecode]{@2@}) to actually start our programs running, since it supports the concept of ``cores" and ``arms" very naturally.  (For those who know Hoon, this “set up a core and run it” pattern should feel similar to \lstinline[style=inlinecode]{|^} or \lstinline[style=inlinecode]{=>}.)
