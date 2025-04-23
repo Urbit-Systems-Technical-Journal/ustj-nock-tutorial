@@ -18,7 +18,7 @@
 
 \newcommand{\authorname}{Tim Galebach}
 \newcommand{\authorpatp}{\patp{timluc-miptev}}
-\newcommand{\affiliation}{Uncentered Systems}
+\newcommand{\affiliation}{Hyperware}
 
 %  Make first page footer:
 \fancypagestyle{firststyle}{%
@@ -1172,7 +1172,7 @@ The above should be starting to feel \emph{very} Hoon-ish: we're a minor code tr
 We're almost at full Hoon now, although still at a very low/raw level. \lstinline[style=inlinecode]{@9@} looks a little complicated...
 
 \begin{lstlisting}[style=listingcode]
-*[a @9@ b c]       *[*[a c] @2@ [@0@ 1] 0 b]
+*[a @9@ b c]       *[*[a c] @2@ [@0@ 1] @0@ b]
 \end{lstlisting}
 
 \noindent{}
@@ -1232,7 +1232,7 @@ What we do next is use \lstinline[style=inlinecode]{b} (here, \lstinline[style=i
 
 \subsubsection{Key Point/Possible Confusion}
 
-When I first say \lstinline[style=inlinecode]{@9@}, I thought: ``why didn't they just use \lstinline[style=inlinecode]{@2@} to make the transformed subject? Why is there an extra step to use \lstinline[style=inlinecode]{[@0@ 1]} to pull the new \lstinline[style=inlinecode]{*[a c]} subject? Why can't we do \lstinline[style=inlinecode]{*[a @2@ c [@0@ b]]}?
+When I first saw \lstinline[style=inlinecode]{@9@}, I thought: ``why didn't they just use \lstinline[style=inlinecode]{@2@} to make the transformed subject? Why is there an extra step to use \lstinline[style=inlinecode]{[@0@ 1]} to pull the new \lstinline[style=inlinecode]{*[a c]} subject? Why can't we do \lstinline[style=inlinecode]{*[a @2@ c [@0@ b]]}?
 
 The answer is that we actually use the \lstinline[style=inlinecode]{*[a c]} subject \emph{twice}:
 
