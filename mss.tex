@@ -339,7 +339,7 @@ Let's play around now in the Dojo Nock interpreter so that we can confirm this. 
 The pseudocode for the \lstinline[style=inlinecode]{@0@} opcode\footnote{From this point on, we will write Nock opcodes in special type so that they can be distinguished from other numbers in Nock.  This reflects Hoon practice, which marks Nock rules as constants like \lstinline[style=inlinecode]{\%0}.  While not strictly necessary, it can be helpful when learning or coding Nock to see an explicit distinction.} is as follows:
 
 \begin{lstlisting}[style=listingcode]
-*[a @0@ b]  /[b a]
+*[a @0@ b]    /[b a]
 \end{lstlisting}
 
 \lstinline[style=inlinecode]{/[b a]} is pseudocode. In English, it means ``\lstinline[style=inlinecode]{a} is a binary tree. Get the memory slot numbered \lstinline[style=inlinecode]{b}.
@@ -413,7 +413,7 @@ It doesn't matter how much information is after the \lstinline[style=inlinecode]
 The pseudocode for \lstinline[style=inlinecode]{@1@} is:
 
 \begin{lstlisting}[style=listingcode]
-*[a @1@ b]  b
+*[a @1@ b]    b
 \end{lstlisting}
 
 In English, this means: ``ignore the subject `a`, and just return everything after the \lstinline[style=inlinecode]{@1@} exactly as it is.
@@ -648,9 +648,9 @@ Now we come to functions/opcodes \lstinline[style=inlinecode]{@3@} and \lstinlin
 
 \begin{lstlisting}[style=listingcode]
 ::  function/opcode 3
-*[a @3@ b]  ?*[a b]
+*[a @3@ b]    ?*[a b]
 :: function/opcode 4
-*[a @4@ b]  +*[a b]
+*[a @4@ b]    +*[a b]
 :: function/opcode 5
 *[a @5@ b c]  =[*[a b] *[a c]]
 \end{lstlisting}
@@ -1101,10 +1101,10 @@ However, the pattern of storing chunks of code in memory and pulling them out wh
 
 \begin{lstlisting}[style=listingcode]
 ::opcode 7
-*[a @7@ b c]          *[*[a b] c]
+*[a @7@ b c]  *[*[a b] c]
 
 :: opcode 2
-*[a @2@ b c]          *[*[a b] *[a c]]
+*[a @2@ b c]  *[*[a b] *[a c]]
 \end{lstlisting}
 
 This is almost exactly the same except with \lstinline[style=inlinecode]{c} instead of \lstinline[style=inlinecode]{*[a c]}. This means that you can write a ``subject-changing" formula in \lstinline[style=inlinecode]{b}, and then run a simple function against that in \lstinline[style=inlinecode]{c}.
@@ -1172,7 +1172,7 @@ The above should be starting to feel \emph{very} Hoon-ish: we're a minor code tr
 We're almost at full Hoon now, although still at a very low/raw level. \lstinline[style=inlinecode]{@9@} looks a little complicated...
 
 \begin{lstlisting}[style=listingcode]
-*[a @9@ b c]       *[*[a c] @2@ [@0@ 1] @0@ b]
+*[a @9@ b c]  *[*[a c] @2@ [@0@ 1] @0@ b]
 \end{lstlisting}
 
 \noindent{}
@@ -1277,7 +1277,7 @@ It replaces the memory slot \lstinline[style=inlinecode]{mem-slot} in \lstinline
 The pseudocode for \lstinline[style=inlinecode]{@10@} is:
 
 \begin{lstlisting}[style=listingcode]
-*[a @10@ [b c] d]      #[b *[a c] *[a d]]
+*[a @10@ [b c] d]  #[b *[a c] *[a d]]
 \end{lstlisting}
 
 In English, this first calculates \lstinline[style=inlinecode]{*[a c]} and \lstinline[style=inlinecode]{*[a d]}, and then replaces memory slot \lstinline[style=inlinecode]{b} in the latter with the result of the former.
