@@ -52,6 +52,8 @@
   Nock is not super complex, and most programmers can learn the basics of it rapidly. The mental model gained by learning Nock turns out to be very useful in learning Hoon and understanding Urbit.
   While the Urbit docs generally suggest to not worry about Nock, Nock is very simple and small.  Most programmers will feel more comfortable in Hoon having learned Nock's basics.
   The goal of this tutorial is to explain Nock clearly in terms most programmers will relate to, to impart a feeling of confidence with very basic Nock, and to give a knowledge of Nock’s idioms and big ``wins" so that they carry over to learning Hoon.
+
+  \sloppy
   This tutorial was originally published online by \patp{timluc-miptev} in early 2020 and remains an excellent exposition of Nock's affordances.
 \end{abstract}
 
@@ -1388,9 +1390,9 @@ The interpreter can then be thought of as moving left-to-right, expanding accord
 \end{lstlisting}
 
 \noindent{}
-Once we get to that last line, \lstinline[style=inlinecode]{++=[/[1 50] *[50 [1 50]]]}, no further expansion into pseudocode is possible.
+Once we get to that last line, \lstinline[style=inlinecode]{++=[/[@1@ 50] *[50 [@1@ 50]]]}, no further expansion into pseudocode is possible.
 
-At this point, the interpreter expands ``inside-out", starting from the deepest operators. In this case, those are \lstinline[style=inlinecode]{/[1 50]} and \lstinline[style=inlinecode]{50}, so it does those:
+At this point, the interpreter expands ``inside-out", starting from the deepest operators. In this case, those are \lstinline[style=inlinecode]{/[@1@ 50]} and \lstinline[style=inlinecode]{50}, so it does those:
 
 \begin{lstlisting}[style=listingcode]
 ++=[50 50]
@@ -1467,13 +1469,14 @@ Jet registration in Hoon usually looks like this:
   ...
 \end{lstlisting}
 
-\lstinline[style=inlinecode]{~/} uses Nock \lstinline[style=inlinecode]{@11@} to pass the value \lstinline[style=inlinecode]{%my-function} to the interpreter, where it is associated with the C code that produces the product of \lstinline[style=inlinecode]{my-function}.
+\noindent
+\lstinline[style=inlinecode]{~/} ``fassig'' uses Nock \lstinline[style=inlinecode]{@11@} to pass the value \lstinline[style=inlinecode]{%my-function} to the interpreter, where it is associated with the C code that produces the product of \lstinline[style=inlinecode]{my-function}.
 
 \subsection{Nock in Hoon}.
 
-In Hoon, you can acquire the Nock code for any function by using the \lstinline[style=inlinecode]{!=} rune.  Since this produces Nock code complete with gate calls, you may also find it helpful to cast a data type as a noun using \lstinline[style=inlinecode]{^-  *}, which will show you the raw Nock code for that value.
+In Hoon, you can acquire the Nock code for any function by using the \lstinline[style=inlinecode]{!=} ``zaptis'' rune.  Since this produces Nock code complete with gate calls, you may also find it helpful to cast a data type as a noun using \lstinline[style=inlinecode]{^-  *}, which will show you the raw Nock code for that value.
 
-As you have seen, you can also evaluate raw Nock using the \lstinline[style=inlinecode]{.*} rune, which evaluates to Nock opcode \lstinline[style=inlinecode]{@2@}.  Other Nock runes in Hoon include \lstinline[style=inlinecode]{.+}, which is opcode \lstinline[style=inlinecode]{@4@}; \lstinline[style=inlinecode]{.=}, which is opcode \lstinline[style=inlinecode]{@5@}; and \lstinline[style=inlinecode]{.?}, which is opcode \lstinline[style=inlinecode]{@3@}.  Fake opcode \lstinline[style=inlinecode]{@12@} is not actually Nock, but is used in a virtualization context to resolve values that may not be available in the current subject.
+As you have seen, you can also evaluate raw Nock using the \lstinline[style=inlinecode]{.*} ``dottar'' rune, which evaluates to Nock opcode \lstinline[style=inlinecode]{@2@}.  Other Nock runes in Hoon include \lstinline[style=inlinecode]{.+}, which is opcode \lstinline[style=inlinecode]{@4@}; \lstinline[style=inlinecode]{.=}, which is opcode \lstinline[style=inlinecode]{@5@}; and \lstinline[style=inlinecode]{.?}, which is opcode \lstinline[style=inlinecode]{@3@}.  Fake opcode \lstinline[style=inlinecode]{@12@} is not actually Nock, but is used in a virtualization context to resolve values that may not be available in the current subject.
 
 \section{The Core as Design Pattern}
 
@@ -1621,17 +1624,17 @@ In this example we will build a Nock core that compares two numbers and returns 
 The program specification is to take two numbers \lstinline[style=inlinecode]{a} and \lstinline[style=inlinecode]{b} and return:
 
 \begin{itemize}
-  \item  \lstinline[style=inlinecode]{0} if \lstinline[style=inlinecode]{a == b}.
-  \item  \lstinline[style=inlinecode]{1} if \lstinline[style=inlinecode]{a > b}.
-  \item  \lstinline[style=inlinecode]{2} if \lstinline[style=inlinecode]{a < b}.
+  \item  \lstinline[style=inlinecode]{0} if \lstinline[style=inlinecode]{a==b}.
+  \item  \lstinline[style=inlinecode]{1} if \lstinline[style=inlinecode]{a>b}.
+  \item  \lstinline[style=inlinecode]{2} if \lstinline[style=inlinecode]{a<b}.
 \end{itemize}
 
 The trick is that the only mathematical operators we have for this are the \lstinline[style=inlinecode]{@4@} opcode for increment, \lstinline[style=inlinecode]{@5@} for equals, and a decrement Nock function that we will supply.  The basic algorithm is:
 
 \begin{itemize}
-  \item  If \lstinline[style=inlinecode]{a == b}, return \lstinline[style=inlinecode]{0}.
-  \item  If \lstinline[style=inlinecode]{a == 0}, return \lstinline[style=inlinecode]{2}.  (I.e, \lstinline[style=inlinecode]{a < b}).
-  \item  If \lstinline[style=inlinecode]{b == 0}, return \lstinline[style=inlinecode]{1}.  (I.e., \lstinline[style=inlinecode]{a > b}).
+  \item  If \lstinline[style=inlinecode]{a==b}, return \lstinline[style=inlinecode]{0}.
+  \item  If \lstinline[style=inlinecode]{a==0}, return \lstinline[style=inlinecode]{2}.  (I.e, \lstinline[style=inlinecode]{a<b}).
+  \item  If \lstinline[style=inlinecode]{b==0}, return \lstinline[style=inlinecode]{1}.  (I.e., \lstinline[style=inlinecode]{a>b}).
   \item  Recur with \lstinline[style=inlinecode]{a} and \lstinline[style=inlinecode]{b} both decremented.
 \end{itemize}
 
@@ -1688,19 +1691,19 @@ The main logic is then:
 ::  check whether a is 0; return 2 if true
 ::  else check whether b is 0; return 1 if true
 ::  else recur
-> =main-logic [6 [5 [0 6] [1 0]] [1 2] [6 [5 [0 7] [1 0]] [1 1] recur]]
+> =main-logic [@6@ [@5@ [@0@ 6] [@1@ 0]] [@1@ 2] [@6@ [@5@ [@0@ 7] [@1@ 0]] [@1@ 1] recur]]
 
 ::  test (we aren't doing the equality case here)
 ::  a < b
-> .*([[main-logic dec-gate] 9 10] [9 4 0 1])
+> .*([[main-logic dec-gate] 9 10] [@9@ 4 @0@ 1])
 2
 ::  a > b
-> .*([[main-logic dec-gate] 10 9] [9 4 0 1])
+> .*([[main-logic dec-gate] 10 9] [@9@ 4 @0@ 1])
 1
 \end{lstlisting}
 
 
-We build an outer test for whether \lstinline[style=inlinecode]{a == b}, and then if it's not, we use the \lstinline[style=inlinecode]{@1@} opcode to return the core.
+We build an outer test for whether \lstinline[style=inlinecode]{a==b}, and then if it's not, we use the \lstinline[style=inlinecode]{@1@} opcode to return the core.
 
 \begin{lstlisting}[style=listingcode]
 > =battery [main-logic dec-gate]
@@ -1723,11 +1726,11 @@ We can take this code and use it \emph{anywhere} that our subject is a cell of t
 [@6@ [@5@ [@0@ 2] @0@ 3] [@1@ 0] @9@ 4 [@1@ [@6@ [@5@ [@0@ 6] @1@ 0] [@1@ 2] @6@ [@5@ [@0@ 7] @1@ 0] [@1@ 1] @9@ 4 [@0@ 2] [@9@ 2 @10@ [@3@ @0@ 6] @0@ 5] @9@ 2 @10@ [@3@ @0@ 7] @0@ 5] [@7@ [@0@ 3] @6@ [@5@ [@0@ 1] @1@ 0] [@0@ 0] @6@ [@3@ @0@ 1] [@0@ 0] @8@ [@1@ 0] @8@ [@1@ @6@ [@5@ [@0@ 7] 4 @0@ 6] [@0@ 6] @9@ 2 [@0@ 2] [@4@ @0@ 6] @0@ 7] @9@ 2 @0@ 1] 0] [@0@ 2] @0@ 3]
 \end{lstlisting}
 
-One common convention used in languages like Hoon is to denote Nock rules as constants, e.g. \@\lstinline[style=inlinecode]{%0}.  This makes it much more straightforward to interpret hand-rolled Nock code with addresses and constants present.
+One common convention used in languages like Hoon is to denote Nock rules as constants, e.g. \@\lstinline[style=inlinecode]{%0} (corresponding to our \lstinline[style=inlinecode]{@0@}).  This makes it much more straightforward to interpret hand-rolled Nock code with addresses and constants present.
 
 \section{Conclusion}
 
-After this tutorial, you should be prepared to interpret Nock code when it is produced by Hoon.  Although there is only rarely any call to write Nock code directly, you should now have a good understanding of how to read and interpret it.  As you write your own interpreters in the future, you may even have call to hand-roll Nock on occasion.
+After this tutorial, you should be prepared to interpret Nock code when it is produced by Hoon.  Although there is only rarely any call to write Nock code directly, you should now have a good understanding of how to read and interpret it.  As you write your own interpreters in the future, you may even have call to hand-roll Nock expressions on occasion.
 
 \selectlanguage{USenglish}
 % \printbibliography
