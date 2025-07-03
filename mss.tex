@@ -66,13 +66,13 @@
 
 When people first look at Nock, they see the definition, which is fairly intimidating.  I'm talking about lines like this:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 /[(a + a) b]        /[2 /[a b]]
 \end{lstlisting}
 
 The problem is, the programmer may already know that Nock code looks more like the below – just lists of numbers, with no symbols:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [6
  [5 [0 6] [1 0]]
  [0 7]
@@ -101,7 +101,7 @@ An interpreter can be a computer program, or it can be a human manually expandin
 
 So a Nock interpreter is any entity that takes Nock code as input, and gives a noun as output. A noun can be:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 :: a number
 782
 :: a cell (pair with two elements)
@@ -119,7 +119,7 @@ We will be expanding Nock pseudocode manually in the examples that follow, in ef
 If we want to check that we're getting the right results from our manual interpretation, we need to run a Nock interpreter, such as the Urbit Dojo.
 
 \begin{enumerate}
-  \item  Start up a Dojo session on a fake ship.\footnote{Consult \texttt{docs.urbit.org} for details.}
+  \item  Start up a Dojo session on a fake ship.\footnote{Consult \url{https://docs.urbit.org} for details.}
   \item  At the prompt, we can execute Nock using \texttt{.*} dottar, e.g., \lstinline[style=inlinecode]{.*(NOCK_SUBJECT, NOCK_FORMULA)}.
 \end{enumerate}
 
@@ -138,7 +138,7 @@ That's it. We'll see below how this works, going really slowly with examples.
 
 OK, so the interpreter takes two arguments, a ``subject" and a ``formula". Both are nouns (a number or a cell). Let's run some insanely simple Nock code in the Dojo:\footnote{Code samples beginning with \lstinline[style=inlinecode]{>} are Dojo inputs (to wit, Hoon expressions).}
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(42 [0 1])
 42
 \end{lstlisting}
@@ -171,7 +171,7 @@ Before getting started on Nock proper, we should understand how Nock and Hoon ha
 
 Every noun in Nock can be thought of as a tree, which means we can give an exact number to access any position in the tree. This means that, no matter how big our subject (argument) is, we can yank a value out of any part of it.
 
-Noun tree addressing is directly addressed in the Nock specification:
+The Nock specification defines noun tree addressing:
 
 \begin{lstlisting}[style=listingcode]
 /[1 a]              a
@@ -181,7 +181,7 @@ Noun tree addressing is directly addressed in the Nock specification:
 /[(a + a + 1) b]    /[3 /[a b]]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 This permits the address to be defined within a particular subtree as well as within the overall tree (Figure \ref{fig:treefull}).
 
 \begin{figure}[hbt!]
@@ -269,7 +269,7 @@ That is, how do you say which slot number you want from a given tree?  We say th
 
 Let's take an example tree to illustrate. In Nock cell form, the tree is:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [[4 5] [6 14 15]]
 \end{lstlisting}
 
@@ -401,7 +401,7 @@ We've also seen that the memory slot function can't take just anything as the me
 
 This is another really simple function. You can think of it as a “quoter”: it just returns any value passed to it exactly as it is. It ignores the subject, and just quotes the value after it. Let's look at a couple examples.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*([20 30] [@1@ 67])
 67
 :: [@1@ 2 587] is same as [@1@ [2 [587]]]
@@ -432,7 +432,7 @@ In the second example, “everything after the \lstinline[style=inlinecode]{@1@}
 
 \lstinline[style=inlinecode]{@0@} and \lstinline[style=inlinecode]{@1@} are simple functions that don't have any nested behavior. Now we're going to move to a function that \emph{does} have nested children, opcode \lstinline[style=inlinecode]{@4@}.  In these examples, pay attention to how \lstinline[style=inlinecode]{@4@} operates on its arguments; we'll look at pseudocode and break down the examples in a moment.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [@4@ @0@ 1])
 51
 
@@ -465,7 +465,7 @@ If we contrast with \lstinline[style=inlinecode]{@0@} and \lstinline[style=inlin
 
 Let's start by translating the Dojo's \lstinline[style=inlinecode]{.*(subject formula)} to pseudocode of the form \lstinline[style=inlinecode]{*[a b]}, and then expand it line by line:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [@4@ @0@ 1])
 51
 :: change to pseudocode
@@ -483,7 +483,7 @@ Let's start by translating the Dojo's \lstinline[style=inlinecode]{.*(subject fo
 \noindent
 The \lstinline[style=inlinecode]{[a b]} part of \lstinline[style=inlinecode]{+*[a b]} expands to:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [50 [@0@ 1]]
 \end{lstlisting}
 
@@ -496,7 +496,7 @@ Now we know that \lstinline[style=inlinecode]{*[a b]=50}, and we just have to ad
 
 This one is similar, we just have an extra \lstinline[style=inlinecode]{@4@}. We again start by translating the Dojo's \lstinline[style=inlinecode]{.*(subject formula)} to pseudocode, and then expand
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [@4@ @4@ @0@ 1])
 52
 *[50 [@4@ @4@ @0@ 1]]
@@ -514,7 +514,7 @@ This one is similar, we just have an extra \lstinline[style=inlinecode]{@4@}. We
 
 Here we again see lots of \lstinline[style=inlinecode]{@4@}s applied consecutively, and we also see how we can yank values out of a more complicated subject and manipulate them. Notice how the subject is a cell, not an atom. The rest is the same as in the previous example.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*([100 150] [@4@ @4@ @0@ 3])
 152
 a (the subject) = [100 150]
@@ -533,7 +533,7 @@ a (the subject) = [100 150]
 
 In the below example, we see how we can use the quote/constant function \lstinline[style=inlinecode]{@1@} to generate the value \lstinline[style=inlinecode]{98} and increment it. We ignore the subject \lstinline[style=inlinecode]{50} completely.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [@4@ @1@ 98])
 99
 *[50 [@4@ @1@ 98]]
@@ -547,7 +547,7 @@ In the below example, we see how we can use the quote/constant function \lstinli
 
 Just as opcode \lstinline[style=inlinecode]{@0@} had values it couldn't handle (non-atoms), so opcode \lstinline[style=inlinecode]{@4@} needs the nested value inside it to evaluate to an atom.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [@4@ @1@ [0 2]])
 dojo: hoon expression failed
 *[50 [@4@ @1@ [0 2]]]
@@ -589,21 +589,21 @@ Let's now fully solidify our understanding of what's a legal formula by taking a
 
   \item  The formula is a cell starting with an opcode.  We know this is OK.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [@0@ 1])
 50
 \end{lstlisting}
 
   \item  The formula is just an atom (0).  This is not valid.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 0)
 dojo: hoon expression failed
 \end{lstlisting}
 
   \item  Finally, we try a formula that is a cell starting with an atom.  This looks invalid, but—it works!
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [[@0@ 1] [@1@ 203]])
 [50 203]
 \end{lstlisting}
@@ -621,14 +621,14 @@ In our example above, \lstinline[style=inlinecode]{formula-x} is \lstinline[styl
 
 We can make as many cells in a row as we want:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(50 [[@0@ 1] [@1@ 203] [@0@ 1] [@1@ 19] [@1@ 76]])
 [50 203 50 19 76]
 \end{lstlisting}
 
 We can put any operation inside each cell:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*([19 20] [[@0@ 1] [@1@ 76] [@4@ @4@ @0@ 3]])
 [[19 20] 76 22]
 \end{lstlisting}
@@ -805,14 +805,14 @@ In all our examples so far, the subject has been defined at the start when we ca
 
 A different subject? Why would we want that? Here's an easy example. Say you found the following piece of Nock code on the interwebz:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [@8@ [@1@ 0] @8@ [@1@ 6 [@5@ [@0@ 7] @4@ @0@ 6] [@0@ 6] @9@ 2 [@0@ 2]
             [@4@ @0@ 6] @0@ 7] @9@ 2 @0@ 1]
 \end{lstlisting}
 
 This is the code for a Nock function that expects a subject that is an atom, and decrements that subject by 1. You can actually enter it in the Dojo right now:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(100 [@8@ [@1@ 0] @8@ [@1@ 6 [@5@ [@0@ 7] @4@ @0@ 6] [@0@ 6] @9@ 2 [@0@ 2] [@4@ @0@ 6] @0@ 7] @9@ 2 @0@ 1])
 99
 \end{lstlisting}
@@ -822,7 +822,7 @@ This works! You do not have to understand the code right now; just try entering 
 
 But now imagine that I have a Nock program with a different subject
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*([50 51] some-formula)
 \end{lstlisting}
 
@@ -830,10 +830,9 @@ And somewhere inside \lstinline[style=inlinecode]{some-formula}, I want to decre
 
 \subsubsection{Subject Altering to the Rescue}
 
-The function/opcode \lstinline[style=inlinecode]{@2@} is designd to handle this problem for us. First the pseudocode:
+The function/opcode \lstinline[style=inlinecode]{@2@} is designed to handle this problem for us. First the pseudocode:
 
 \begin{lstlisting}[style=listingcode]
-:: PSEUDOCODE
 *[a @2@ b c]  *[*[a b] *[a c]]
 \end{lstlisting}
 
@@ -847,7 +846,7 @@ The function/opcode \lstinline[style=inlinecode]{@2@} is designd to handle this 
 
 Note that the pseudocode for \lstinline[style=inlinecode]{@2@} has nested `*`s.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 *[*[a b] *[a c]]
 \end{lstlisting}
 
@@ -1001,7 +1000,7 @@ Remember, our English explanation was ``see if \lstinline[style=inlinecode]{*[a 
 
 Let's say we have \lstinline[style=inlinecode]{a} as \lstinline[style=inlinecode]{59}, and \lstinline[style=inlinecode]{b} as the quoted value \lstinline[style=inlinecode]{@0@}/true.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 *[a @4@ @4@ b]
 :: a: 59
 :: b: [1 0]
@@ -1021,7 +1020,7 @@ What the heck? Why are we getting \lstinline[style=inlinecode]{@2@} or \lstinlin
 
 Now we go up to step 3, with the subject \lstinline[style=inlinecode]{[2 3]} evaluated against our return value from step 4.  Let's imagine that \lstinline[style=inlinecode]{2} had been returned:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 :: remember, "result-of-step-4" was 2
 *[[2 3] @0@ result-of-step-4]
 *[[2 3] @0@ 2]
@@ -1035,7 +1034,7 @@ Wait, isn't this redundant? We are just using our \lstinline[style=inlinecode]{2
 
 The answer is that we make sure that a crash happens if \lstinline[style=inlinecode]{*[a b]} yields any answer other than \lstinline[style=inlinecode]{0}/true or \lstinline[style=inlinecode]{1}/false.  If \lstinline[style=inlinecode]{*[a b]} returned \lstinline[style=inlinecode]{10}, for example, we'd have the following code in step 3:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 *[[2 3] @0@ 10]
 :: there's no slot 10
 CRASH!!
@@ -1047,7 +1046,7 @@ This is exactly what we want: the program crashes unless we are doing a loobean\
 
 We now have our validated \lstinline[style=inlinecode]{2} or \lstinline[style=inlinecode]{3} to plug into step 2. Let's imagine \lstinline[style=inlinecode]{c} is the simple formula \lstinline[style=inlinecode]{[0 1]} and \lstinline[style=inlinecode]{d} is \lstinline[style=inlinecode]{[1 203]}.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 :: if step 3 returned "2" (true)
 *[[[@0@ 1] [@1@ 203]] @0@ 2]
 [@0@ 1]
@@ -1059,7 +1058,7 @@ Not much to see here: we just grab memory slot \lstinline[style=inlinecode]{2} o
 
 And now we're back at the top level, where we just use whichever formula we yoinked in step 2 and run it against \lstinline[style=inlinecode]{a}.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 *[a formula-from-step-2]
 :: let's say we returned formula [0 1]
 :: our original a, from step 4, was 59
@@ -1176,7 +1175,7 @@ We're almost at full Hoon now, although still at a very low/raw level. \lstinlin
 *[a @9@ b c]  *[*[a c] @2@ [@0@ 1] @0@ b]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 ... but in English, this is just saying:
 
 \begin{enumerate}
@@ -1185,7 +1184,7 @@ We're almost at full Hoon now, although still at a very low/raw level. \lstinlin
   \item  Run that formula against the new subject \lstinline[style=inlinecode]{*[a c]}.
 \end{enumerate}
 
-\noindent{}
+\noindent
 The fact that the above description has the words ``make a new subject" tells us right away that it's syntactic sugar for opcode \lstinline[style=inlinecode]{@2@}, and that's indeed what we see in the pseudocode.
 
 \subsubsection{Example: Using \lstinline[style=inlinecode]{@9@} to Run an Increment Arm}
@@ -1194,7 +1193,7 @@ The initial expression here likely looks cryptic, but if you follow the pseudoco
 
 To stay oriented, remember that, if we're thinking of \lstinline[style=inlinecode]{@9@} as \lstinline[style=inlinecode]{*[a @9@ b c]}, then
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 a: 45
 b: 2
 c: [[@1@ @4@ @0@ 3] @0@ 1]
@@ -1223,7 +1222,7 @@ c: [[@1@ @4@ @0@ 3] @0@ 1]
 
 We start above with a subject that is not a core; it's just the atom \lstinline[style=inlinecode]{45}. The code for \lstinline[style=inlinecode]{c} is then:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [[@1@ @4@ @0@ 3] [@0@ 1]]
 \end{lstlisting}
 
@@ -1254,7 +1253,7 @@ I like to think of \lstinline[style=inlinecode]{@9@} as having three parts:
   \item  Run the arm located at \lstinline[style=inlinecode]{b} against the new subject.
 \end{enumerate}
 
-\noindent{}
+\noindent
 You can think of this as setting up a subject, pulling a stored procedure from it, and then running that procedure against the subject.
 
 \subsection{\lstinline[style=inlinecode]{@10@}, Replace a Memory Slot}
@@ -1265,16 +1264,16 @@ Before explaining \lstinline[style=inlinecode]{@10@}, we need to introduce a new
 #[mem-slot new-val target-tree]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 It replaces the memory slot \lstinline[style=inlinecode]{mem-slot} in \lstinline[style=inlinecode]{target-tree} with \lstinline[style=inlinecode]{new-val}.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 ::  Example
 #[2 [4 5] [99 88 77]]
 [[4 5] 88 77]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 The pseudocode for \lstinline[style=inlinecode]{@10@} is:
 
 \begin{lstlisting}[style=listingcode]
@@ -1324,7 +1323,7 @@ To finish this off and take your new powers for a spin, let's look at some real 
  @8@ [@5@ [@0@ 14] @0@ 2] @0@ 6]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 So we:
 
 \begin{enumerate}
@@ -1333,20 +1332,21 @@ So we:
   \item  Print out that source code by calling the head.
 \end{enumerate}
 
-\noindent{}
-We know the below code is a gate that evaluates its sample, and returns it if it's a loobean, and crashes otherwise. Let's see how that works.
+\noindent
+The below code acts as a formula which evaluates its sample, and returns it if it's a loobean or crashes otherwise. Let's see how that works.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [@6@ [@5@ [@1@ 0] @0@ 6] [@1@ 0] @6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 We start with \lstinline[style=inlinecode]{@6@}, which means this is an if-else. The true/false test is the next element:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [@5@ [@1@ 0] @0@ 6]
 \end{lstlisting}
 
+\noindent
 This compares the quoted value \lstinline[style=inlinecode]{0} (from \lstinline[style=inlinecode]{[@1@ 0]}) with the value at memory slot \lstinline[style=inlinecode]{6} in the subject (\lstinline[style=inlinecode]{[@0@ 6]}).
 
 What is the subject and what is at mem slot \lstinline[style=inlinecode]{6}? This code is the arm of a gate, so the subject is that gate/core: \lstinline[style=inlinecode]{[battery [sample payload]]}. We are looking at the battery right now, and so \lstinline[style=inlinecode]{[@0@ 6]} yanks the head of the tail, or the \lstinline[style=inlinecode]{sample}!
@@ -1355,13 +1355,21 @@ We know the sample will be a noun that we're testing for loobeanness, so this co
 
 Otherwise, we run the second branch of the \lstinline[style=inlinecode]{if}–\lstinline[style=inlinecode]{else} conditional:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [@6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
 \end{lstlisting}
 
 This is also an opcode \lstinline[style=inlinecode]{@6@} if-else. Once again, it compares something to the value at mem slot \lstinline[style=inlinecode]{6} (the sample), but this time it checks whether that is the value \lstinline[style=inlinecode]{1}. If it is, it runs the formula \lstinline[style=inlinecode]{[@1@ 1]} to return \lstinline[style=inlinecode]{1}.
 
-If not, it means our input was neither \lstinline[style=inlinecode]{0} nor \lstinline[style=inlinecode]{1} and is not a loobean, so we run the formula \lstinline[style=inlinecode]{[@0@ 0]}, which always crashes (as there is no memory slot \lstinline[style=inlinecode]{0}).\footnote{In the binary tree addressing scheme of Nock, 1 refers to the entire noun, 2 to its head if it exists, and 3 to its tail if it exists.} This is exactly what we want—crash if the sample is not a loobean!
+If not, it means our input was neither \lstinline[style=inlinecode]{0} nor \lstinline[style=inlinecode]{1} and is not a loobean, so we run the formula \lstinline[style=inlinecode]{[@0@ 0]}, which always crashes (as there is no memory slot \lstinline[style=inlinecode]{0}).\footnote{Recall that in the binary tree addressing scheme of Nock, 1 refers to the entire noun, 2 to its head if it exists, and 3 to its tail if it exists.} This is exactly what we want—crash if the sample is not a loobean!
+
+The second part of the formula which is composed with an \lstinline[style=inlinecode]{@8@} is:
+
+\begin{lstlisting}[style=listingblock]
+[@8@ [@5@ [@0@ 14] @0@ 2] @0@ 6]
+\end{lstlisting}
+
+This checks whether the battery of the current gate is equivalent to the head of the context; if so, it returns the sample.  This is a artifact of a type promotion in Hoon which converts a bare loobean value to a constant by pinning a constant as an example first (i.e., at slot 14).  (It's completely extraneous in Nock itself, however.)
 
 \subsection{Summary}
 
@@ -1375,14 +1383,14 @@ In this section, we cover some loose ends deriving from the previous discussion.
 
 At this point, we can answer the question of what order Nock evaluates expressions in.  The answer is straightforward: it starts with code that has only one pseudocode operator and all Nock code, as below:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 *[50 @4@ @4@ [@5@ [@0@ 1] [@1@ 50]]]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 The interpreter can then be thought of as moving left-to-right, expanding according to its rules, until it can't expand any further into pseudocode:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 *[50 @4@ @4@ [@5@ [@0@ 1] [@1@ 50]]]
 +*[50 @4@ [@5@ [@0@ 1] [@1@ 50]]]
 ++*[50 @5@ [@0@ 1] [@1@ 50]]
@@ -1390,19 +1398,19 @@ The interpreter can then be thought of as moving left-to-right, expanding accord
 ++=[/[@1@ 50] 50]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 Once we get to that last line, \lstinline[style=inlinecode]{++=[/[@1@ 50] *[50 [@1@ 50]]]}, no further expansion into pseudocode is possible.
 
 At this point, the interpreter expands ``inside-out", starting from the deepest operators. In this case, those are \lstinline[style=inlinecode]{/[@1@ 50]} and \lstinline[style=inlinecode]{50}, so it does those:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 ++=[50 50]
 \end{lstlisting}
 
-\noindent{}
+\noindent
 Then it moves to the next-furthest-inside operator: \lstinline[style=inlinecode]{=}, and then to the \lstinline[style=inlinecode]{+} operators:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 ++=[50 50]
 ++(0)
 +(1)
@@ -1422,7 +1430,7 @@ Opcode \lstinline[style=inlinecode]{@11@} lets you compute side effects and pass
 
 There are two different versions of \lstinline[style=inlinecode]{@11@}, depending on whether the head following \lstinline[style=inlinecode]{@11@} is an atom or a cell
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 ::  head is an atom (b)
 *[a @11@ b c]  *[a c]
 
@@ -1441,16 +1449,16 @@ This pseudocode lets \lstinline[style=inlinecode]{@11@} handle two separate use 
 
 Imagine the following Nock:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 .*([50 51] [@11@ 369 @0@ 2])
 \end{lstlisting}
 
-\noindent{}
+\noindent
 This passes the value \lstinline[style=inlinecode]{369} to the interpreter, where maybe it would be the key in a hashmap. The value associated with the could be the function to debug print the whole operation. Or the value could be a jet function that specifically knows how to compute the \lstinline[style=inlinecode]{@0@} opcode faster when it's followed by a \lstinline[style=inlinecode]{@2@}.
 
 After the interpreter does whatever, it needs to then discard the value \lstinline[style=inlinecode]{292.989}, and computes
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*([50 51] [@0@ 2])
 50
 \end{lstlisting}
@@ -1485,7 +1493,7 @@ At this point, you now know everything there is to know about Nock syntax and ba
 
 We can set variables to formulas in the Urbit Dojo. We will use that in this lesson to make code easy to follow, and to show how Nock programs are made out of discrete chunks.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > =increment-formula [@4@ @0@ 1]
 > .*(50 increment-formula)
 51
@@ -1524,7 +1532,7 @@ Our code expects the subject to be an atom, but Hoon gates expect their subject 
 
 We put our formula in the head, and put a default (``bunted'') sample of \lstinline[style=inlinecode]{0} as the payload.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > =inc-gate [inc 0]
 > inc-gate
 [[@7@ [@0@ 3] @4@ @0@ 1] 0]
@@ -1532,14 +1540,14 @@ We put our formula in the head, and put a default (``bunted'') sample of \lstinl
 
 Arms are best invoked using the \lstinline[style=inlinecode]{@9@} opcode. Here we use the ``standard" version of it: \lstinline[style=inlinecode]{[@9@ 2 @0@ 1]}. Recall that \lstinline[style=inlinecode]{@9@} is \lstinline[style=inlinecode]{*[a @9@ b c]}, where \lstinline[style=inlinecode]{c} is the ``new subject" formula, and \lstinline[style=inlinecode]{b} is the memory slot of that new subject to take an arm from. Here we use \lstinline[style=inlinecode]{[@0@ 1]} to keep our subject (the gate) unchanged.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > .*(inc-gate [@9@ 2 @0@ 1])
 1
 \end{lstlisting}
 
 To ``pass a parameter" to our gate, we use the \lstinline[style=inlinecode]{@10@} opcode to edit the subject (the \lstinline[style=inlinecode]{inc-gate} core) and replace the payload with a value.  We make our subject \lstinline[style=inlinecode]{[inc-gate val-to-increment]}:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 :: notice how opcode 10 can replace the last element of inc-gate
 :: the tail of inc-gate was 0; now it's 36
 > .*([inc-gate 36] [@10@ [@3@ [@0@ 3]] @0@ 2])
@@ -1580,7 +1588,7 @@ dojo: hoon expression failed
 
 Let's re-jigger the decrement formula to accept the subject in format \lstinline[style=inlinecode]{[battery payload]}:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 ::  gets value in mem slot 3 and applies the decrement formula to it
 > =dec-arm [@7@ [@0@ 3] dec]
 
@@ -1595,7 +1603,7 @@ Let's re-jigger the decrement formula to accept the subject in format \lstinline
 
 Next, assemble the core:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 :: all we need to do is add the sample! (we give it a default value of 0)
 > =dec-gate [dec-arm 0]
 > dec-gate
@@ -1605,7 +1613,7 @@ Next, assemble the core:
 
 As in the first example, we use the \lstinline[style=inlinecode]{@10@} opcode to edit the subject (the \lstinline[style=inlinecode]{dec-gate} core) and replace the payload with a value.  We make our subject \lstinline[style=inlinecode]{[dec-gate val-to-decrement]}.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 ::  confirm that our 10 code places 36 in the tail
 > .*([dec-gate 36] [@10@ [@3@ [@0@ 3]] @0@ 2])
 [[@7@ [@0@ 3] @6@ [@5@ [@0@ 1] @1@ 0] [@0@ 0] @6@ [@3@ @0@ 1] [@0@ 0] @8@ [@1@ 0] @8@ [@1@ 6 [@5@ [@0@ 7] @4@ @0@ 6] [@0@ 6] @9@ 2 [@0@ 2] [@4@ @0@ 6] @0@ 7] @9@ 2 @0@ 1] 36]
@@ -1647,7 +1655,7 @@ We will put our variables \lstinline[style=inlinecode]{a} and \lstinline[style=i
 
 The final core we will create will have the structure \lstinline[style=inlinecode]{[battery payload]}, which can be broken down as:
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [[main-logic dec-gate] a b]
 \end{lstlisting}
 
@@ -1657,7 +1665,7 @@ This recursion logic assumes the decrement gate lives in the tail of the battery
 
 This is identical to what we did in the second example—the only difference is that we now do it twice: once for memory slot \lstinline[style=inlinecode]{6} (\lstinline[style=inlinecode]{a}) and again for memory slot \lstinline[style=inlinecode]{7} (\lstinline[style=inlinecode]{b}).
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > =dec-a [@9@ 2 @10@ [@3@ [@0@ 6]] @0@ 5]
 > =dec-b [@9@ 2 @10@ [@3@ [@0@ 7]] @0@ 5]
 
@@ -1674,7 +1682,7 @@ This is identical to what we did in the second example—the only difference is 
 
 The recursion formula here operates by invoking its subject—itself—and applying the \lstinline[style=inlinecode]{dec-a} and \lstinline[style=inlinecode]{dec-b} formulas to it.  Then we use opcode \lstinline[style=inlinecode]{@9@} for the new subject's setup: replace \lstinline[style=inlinecode]{payload} with new \lstinline[style=inlinecode]{a} and \lstinline[style=inlinecode]{b} run the current core
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > =recur [@9@ 4 [[@0@ 2] dec-a dec-b]]
 
 :: test it -- we want to see same battery,
@@ -1706,7 +1714,7 @@ The main logic is then:
 
 We build an outer test for whether \lstinline[style=inlinecode]{a==b}, and then if it's not, we use the \lstinline[style=inlinecode]{@1@} opcode to return the core.
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 > =battery [main-logic dec-gate]
 
 ::  payload for our core is memory slots 2 and 3 (a and b)
@@ -1723,7 +1731,7 @@ We build an outer test for whether \lstinline[style=inlinecode]{a==b}, and then 
 
 We can take this code and use it \emph{anywhere} that our subject is a cell of two numbers, and it will ``just work".
 
-\begin{lstlisting}[style=listingcode]
+\begin{lstlisting}[style=listingblock]
 [@6@ [@5@ [@0@ 2] @0@ 3] [@1@ 0] @9@ 4 [@1@ [@6@ [@5@ [@0@ 6] @1@ 0] [@1@ 2] @6@ [@5@ [@0@ 7] @1@ 0] [@1@ 1] @9@ 4 [@0@ 2] [@9@ 2 @10@ [@3@ @0@ 6] @0@ 5] @9@ 2 @10@ [@3@ @0@ 7] @0@ 5] [@7@ [@0@ 3] @6@ [@5@ [@0@ 1] @1@ 0] [@0@ 0] @6@ [@3@ @0@ 1] [@0@ 0] @8@ [@1@ 0] @8@ [@1@ @6@ [@5@ [@0@ 7] 4 @0@ 6] [@0@ 6] @9@ 2 [@0@ 2] [@4@ @0@ 6] @0@ 7] @9@ 2 @0@ 1] 0] [@0@ 2] @0@ 3]
 \end{lstlisting}
 
