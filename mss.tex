@@ -49,9 +49,8 @@
 \thispagestyle{firststyle}
 
 \begin{abstract}
-  Nock is not super complex, and most programmers can learn the basics of it rapidly. The mental model gained by learning Nock turns out to be very useful in learning Hoon and understanding Urbit.
-  While the Urbit docs generally suggest to not worry about Nock, Nock is very simple and small.  Most programmers will feel more comfortable in Hoon having learned Nock's basics.
-  The goal of this tutorial is to explain Nock clearly in terms most programmers will relate to, to impart a feeling of confidence with very basic Nock, and to give a knowledge of Nock’s idioms and big ``wins" so that they carry over to learning Hoon.
+  \sloppy
+  Nock is not super complex, and most programmers can learn the basics of it rapidly. The mental model gained by learning Nock turns out to be very useful in learning Hoon and understanding \mbox{Urbit}.  While the Urbit docs generally suggest to not worry about Nock, Nock is very simple and small.  Most programmers will feel more comfortable in Hoon having learned Nock's basics.  The goal of this tutorial is to explain Nock clearly in terms most programmers will relate to, to impart a feeling of confidence with very basic Nock, and to give a knowledge of Nock’s idioms and big wins so that they carry over to learning Hoon.
 
   \sloppy
   This tutorial was originally published online by \patp{timluc-miptev} in early 2020 and remains an excellent exposition of Nock's affordances.
@@ -662,7 +661,7 @@ First of all, notice how the right side of all these “equations” has the eva
 There are some new pseudocode symbols here that we need to translate into English. We already know \lstinline[style=inlinecode]{+}: ``increment the value after this". Now we also see:
 
 \begin{itemize}
-  \item  \lstinline[style=inlinecode]{?}: ``check whether the value after this is a cell. Return 0 if yes, 1 if no".
+  \item  \lstinline[style=inlinecode]{?}: ``check whether the value after this is a cell. Return 0 if yes, 1 if no".\footnote{Nock conventionally explains that there is one ``true'' case and (potentially) many ``false'' cases, thus 0/\texttt{true} and 1/\texttt{false}.}
   \item  \lstinline[style=inlinecode]{=}: ``first run the function in \lstinline[style=inlinecode]{b} with subject \lstinline[style=inlinecode]{a} as the argument, and same for the function in \lstinline[style=inlinecode]{c}. If the results are equal, return 0, if not, return 1.
 \end{itemize}
 
@@ -1042,7 +1041,7 @@ The answer is that we make sure that a crash happens if \lstinline[style=inlinec
 CRASH!!
 \end{lstlisting}
 
-This is exactly what we want: the program crashes unless we are doing a boolean test that returns a \lstinline[style=inlinecode]{0} or \lstinline[style=inlinecode]{1} (converted to an indicial \lstinline[style=inlinecode]{2} or \lstinline[style=inlinecode]{3}) in step 4.
+This is exactly what we want: the program crashes unless we are doing a loobean\footnote{A boolean truth value but with the typical truth values of 0 and 1 reversed to 0/\texttt{true} and 1/\texttt{false}.} test that returns a \lstinline[style=inlinecode]{0} or \lstinline[style=inlinecode]{1} (converted to an indicial \lstinline[style=inlinecode]{2} or \lstinline[style=inlinecode]{3}) in step 4.
 
 \subsubsection{Step 2}
 
@@ -1093,7 +1092,7 @@ And now we're back at the top level, where we just use whichever formula we yoin
 
 \subsubsection{Summary of \lstinline[style=inlinecode]{@6@}}
 
-Now I'm going to make you a little sad. Most Nock interpreters don't do this whole awesome code expansion. They just see \lstinline[style=inlinecode]{@6@}, and implement an if/else check with a crash if \lstinline[style=inlinecode]{*[a b]} isn't a boolean.
+Now I'm going to make you a little sad. Most Nock interpreters don't do this whole awesome code expansion. They just see \lstinline[style=inlinecode]{@6@}, and implement an if/else check with a crash if \lstinline[style=inlinecode]{*[a b]} isn't a loobean.
 
 However, the pattern of storing chunks of code in memory and pulling them out when you want them is the most important part of Nock. In fact, those of you who know Hoon are probably already seeing the makings of the ``core'' code pattern.
 
@@ -1307,33 +1306,35 @@ If ``grab a chunk of code from a subject and then run it against the subject" so
 
 \subsection{Real Nock Code}
 
-To finish this off and take your new powers for a spin, let's look at some real Nock code from the wild. I got the below example from the Dojo. It's a mold: a function that takes a noun and returns it if it's the correct type, and crashes if not. The mold here checks whether the input noun is a boolean (\lstinline[style=inlinecode]{0}/true or \lstinline[style=inlinecode]{1}/false).
+To finish this off and take your new powers for a spin, let's look at some real Nock code from the wild. I got the below example from the Dojo. It's a mold: a function that takes a noun and returns it if it's the correct type, and crashes if not. The mold here checks whether the input noun is a loobean (\lstinline[style=inlinecode]{0}/true or \lstinline[style=inlinecode]{1}/false).
 
-\subsubsection{Example: A Boolean Mold}
+\subsubsection{Example: A Loobean Mold}
 
 \begin{lstlisting}[style=listingcode]
-> =boolean-mold ?
+:: loobean mold gate
+> =loobean-mold ?
 
-:: below output shortened for our purposes here
-> boolean-mold
-< 1.toz ... >
+:: below output truncated for our purposes here
+> loobean-mold
+< 1.fxf ... >
 
 ::  grab the code for the battery
-> -.boolean-mold
-[@6@ [@5@ [@1@ 0] @0@ 6] [@1@ 0] @6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
+> -.loobean-mold
+[@8@ [@6@ [@5@ [@1@ 0] @0@ 6] [@1@ 0] @6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
+ @8@ [@5@ [@0@ 14] @0@ 2] @0@ 6]
 \end{lstlisting}
 
 \noindent{}
 So we:
 
 \begin{enumerate}
-  \item  Assign the mold gate denoted by \lstinline[style=inlinecode]{?} to the face \lstinline[style=inlinecode]{boolean-mold}.
+  \item  Assign the mold gate denoted by \lstinline[style=inlinecode]{?} to the face \lstinline[style=inlinecode]{loobean-mold}.
   \item  Examine what's inside, seeing that the head is an arm.
   \item  Print out that source code by calling the head.
 \end{enumerate}
 
 \noindent{}
-We know the below code is a gate that evaluates its sample, and returns it if it's a boolean, and crashes otherwise. Let's see how that works.
+We know the below code is a gate that evaluates its sample, and returns it if it's a loobean, and crashes otherwise. Let's see how that works.
 
 \begin{lstlisting}[style=listingcode]
 [@6@ [@5@ [@1@ 0] @0@ 6] [@1@ 0] @6@ [@5@ [@1@ 1] @0@ 6] [@1@ 1] @0@ 0]
@@ -1350,7 +1351,7 @@ This compares the quoted value \lstinline[style=inlinecode]{0} (from \lstinline[
 
 What is the subject and what is at mem slot \lstinline[style=inlinecode]{6}? This code is the arm of a gate, so the subject is that gate/core: \lstinline[style=inlinecode]{[battery [sample payload]]}. We are looking at the battery right now, and so \lstinline[style=inlinecode]{[@0@ 6]} yanks the head of the tail, or the \lstinline[style=inlinecode]{sample}!
 
-We know the sample will be a noun that we're testing for booleanness, so this code starts by seeing whether the sample is the value \lstinline[style=inlinecode]{0}/true. If it is, the next element is \lstinline[style=inlinecode]{[@1@ 0]}, so we return \lstinline[style=inlinecode]{0} if the sample is \lstinline[style=inlinecode]{0}.
+We know the sample will be a noun that we're testing for loobeanness, so this code starts by seeing whether the sample is the value \lstinline[style=inlinecode]{0}/true. If it is, the next element is \lstinline[style=inlinecode]{[@1@ 0]}, so we return \lstinline[style=inlinecode]{0} if the sample is \lstinline[style=inlinecode]{0}.
 
 Otherwise, we run the second branch of the \lstinline[style=inlinecode]{if}–\lstinline[style=inlinecode]{else} conditional:
 
@@ -1360,7 +1361,7 @@ Otherwise, we run the second branch of the \lstinline[style=inlinecode]{if}–\l
 
 This is also an opcode \lstinline[style=inlinecode]{@6@} if-else. Once again, it compares something to the value at mem slot \lstinline[style=inlinecode]{6} (the sample), but this time it checks whether that is the value \lstinline[style=inlinecode]{1}. If it is, it runs the formula \lstinline[style=inlinecode]{[@1@ 1]} to return \lstinline[style=inlinecode]{1}.
 
-If not, it means our input was neither \lstinline[style=inlinecode]{0} nor \lstinline[style=inlinecode]{1} and is not a boolean, so we run the formula \lstinline[style=inlinecode]{[@0@ 0]}, which always crashes (as there is no memory slot \lstinline[style=inlinecode]{0}). This is exactly what we want—crash if the sample is not a boolean!
+If not, it means our input was neither \lstinline[style=inlinecode]{0} nor \lstinline[style=inlinecode]{1} and is not a loobean, so we run the formula \lstinline[style=inlinecode]{[@0@ 0]}, which always crashes (as there is no memory slot \lstinline[style=inlinecode]{0}).\footnote{In the binary tree addressing scheme of Nock, 1 refers to the entire noun, 2 to its head if it exists, and 3 to its tail if it exists.} This is exactly what we want—crash if the sample is not a loobean!
 
 \subsection{Summary}
 
@@ -1465,14 +1466,14 @@ Jet registration in Hoon usually looks like this:
 \begin{lstlisting}[style=listingcode]
 ++  my-function
   ~/  %my-function
-  |=  var=@
+  |=  var=*
   ...
 \end{lstlisting}
 
 \noindent
 \lstinline[style=inlinecode]{~/} ``fassig'' uses Nock \lstinline[style=inlinecode]{@11@} to pass the value \lstinline[style=inlinecode]{%my-function} to the interpreter, where it is associated with the C code that produces the product of \lstinline[style=inlinecode]{my-function}.
 
-\subsection{Nock in Hoon}.
+\subsection{Nock in Hoon}
 
 In Hoon, you can acquire the Nock code for any function by using the \lstinline[style=inlinecode]{!=} ``zaptis'' rune.  Since this produces Nock code complete with gate calls, you may also find it helpful to cast a data type as a noun using \lstinline[style=inlinecode]{^-  *}, which will show you the raw Nock code for that value.
 
