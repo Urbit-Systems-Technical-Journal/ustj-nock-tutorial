@@ -987,7 +987,7 @@ The prose explanation of what's happening is straightforward:
 
 OK, so that's the English version. The code explanation (the right side of the definition) is \emph{really fun} now that we know the basic Nock opcodes.
 
-The pseudocode has four nested `*[subject formula]`s, so I'm going to unwrap those to the bottom, and then build it up again. The layers are, in order:
+The pseudocode has four nested \lstinline[style=inlinecode]{*[subject formula]}s, so I'm going to unwrap those to the bottom, and then build it up again. The layers are, in order:
 
 \begin{enumerate}
   \item  \lstinline[style=inlinecode]{*[a ...]}, i.e. subject \lstinline[style=inlinecode]{a} evaluated against that long formula starting with \lstinline[style=inlinecode]{*[[c d] @0@ ...]}.
@@ -1243,7 +1243,7 @@ The answer is that we actually use the \lstinline[style=inlinecode]{*[a c]} subj
   \item  Then we run \emph{that} formula against the \lstinline[style=inlinecode]{*[a c]} subject.
 \end{enumerate}
 
-If we just did \lstinline[style=inlinecode]{*[a @2@ c [@0@ b]]}, then \lstinline[style=inlinecode]{[@0@ b]} would try to look up the \lstinline[style=inlinecode]{b} memory slot in \lstinline[style=inlinecode]{a}, NOT \lstinline[style=inlinecode]{*[a c]}. So \lstinline[style=inlinecode]{@9@} gives us one extra step to set up the core itself.
+If we just did \lstinline[style=inlinecode]{*[a @2@ c [@0@ b]]}, then \lstinline[style=inlinecode]{[@0@ b]} would try to look up the \lstinline[style=inlinecode]{b} memory slot in \lstinline[style=inlinecode]{a}, \textsc{not} \lstinline[style=inlinecode]{*[a c]}. So \lstinline[style=inlinecode]{@9@} gives us one extra step to set up the core itself.
 
 \subsubsection{How to Think of \lstinline[style=inlinecode]{@9@}}
 
@@ -1260,7 +1260,7 @@ You can think of this as setting up a subject, pulling a stored procedure from i
 
 \subsection{\lstinline[style=inlinecode]{@10@}, Replace a Memory Slot}
 
-Before explaining \lstinline[style=inlinecode]{@10@}, we need to introduce a new operator, \lstinline[style=inlinecode]{#}. \lstinline[style=inlinecode]{#} is the ``edit" operator. It has the form
+Before explaining \lstinline[style=inlinecode]{@10@}, we need to introduce a new operator, \lstinline[style=inlinecode]{#} hax. \lstinline[style=inlinecode]{#} hax is the ``edit" operator. It has the form
 
 \begin{lstlisting}[style=listingcode]
 #[mem-slot new-val target-tree]
