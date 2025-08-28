@@ -169,7 +169,7 @@ The two most basic Nock functions are \lstinline[style=inlinecode]{0} address an
 
 \subsection{Binary Tree Addressing}
 
-Before getting started on Nock proper, we should understand how Nock and Hoon handle addresses in binary trees.  If you already understand why memory slot 5 of \lstinline[style=inlinecode]{[['apple' %pie] [0b1101 0xdad]]} is \lstinline[style=inlinecode]{%pie}, you are good to go and can skip ahead to the Section~\ref{sxn:nock0}.
+Before getting started on Nock proper, we should understand how Nock and Hoon handle addresses in binary trees.  If you already understand why memory slot 5 of \lstinline[style=inlinecode]{[['apple' %pie] [0b1101 0xdad]]} is \lstinline[style=inlinecode]{%pie}, you are good to go and can skip ahead to Section~\ref{sxn:nock0}.
 
 Every noun in Nock can be thought of as a tree, which means we can give an exact number to access any position in the tree. This means that, no matter how big our subject (argument) is, we can yank a value out of any part of it.
 
@@ -188,7 +188,6 @@ This permits the address to be defined within a particular subtree as well as wi
 
 \begin{figure}[hbt!]
   \centering
-  \caption{A binary tree with labeled node addresses to several layers. \label{fig:treefull}}
   \begin{tikzpicture}[
     ->, >=stealth,
     level 1/.style={sibling distance=8cm, level distance=1.5cm},
@@ -259,6 +258,7 @@ This permits the address to be defined within a particular subtree as well as wi
       }
     };
   \end{tikzpicture}
+  \caption{A binary tree with labeled node addresses to several layers. \label{fig:treefull}}
 \end{figure}
 
 That is, how do you say which slot number you want from a given tree?  We say that:
@@ -279,7 +279,6 @@ Diagrammatically, the tree looks like Figure \ref{fig:tree45}.
 
 \begin{figure}[t]
   \centering
-  \caption{A binary tree with some labeled node addresses. \label{fig:tree45}}
   {
     \begin{tikzpicture}
     [->,>=stealth',level/.style={sibling distance = 5cm/#1, level distance = 1.5cm},scale=0.6, transform shape]
@@ -311,6 +310,7 @@ Diagrammatically, the tree looks like Figure \ref{fig:tree45}.
     ;
     \end{tikzpicture}
   }
+  \caption{A binary tree with some labeled node addresses. \label{fig:tree45}}
 \end{figure}
 
 \begin{itemize}
@@ -361,7 +361,7 @@ Let's look at some examples. I've put them first in Dojo form so that you can se
 [50 51]
 :: PSEUDOCODE -- replaces the Dojo's () with []
 *[[50 51] [@0@ 1]]
-:: *[a @0@ b] -> a = [50 51], b = 1
+:: *[a 0 b] -> a = [50 51], b = 1
 /[1 [50 51]]
 [50 51]
 \end{lstlisting}
@@ -373,7 +373,7 @@ Let's look at some examples. I've put them first in Dojo form so that you can se
 50
 :: PSEUDOCODE -- replaces the Dojo's () with []
 *[[50 51] [0 2]]
-:: *[a @0@ b] -> a = [50 51], b = 2
+:: *[a 0 b] -> a = [50 51], b = 2
 /[2 [50 51]]
 50
 \end{lstlisting}
@@ -406,7 +406,7 @@ This is another really simple function. You can think of it as a “quoter”: i
 \begin{lstlisting}[style=listingblock]
 > .*([20 30] [@1@ 67])
 67
-:: [@1@ 2 587] is same as [@1@ [2 [587]]]
+:: [1 2 587] is same as [1 [2 [587]]]
 > .*([20 30] [@1@ [2 [587])
 [2 587]
 \end{lstlisting}
@@ -579,7 +579,7 @@ The Nock interpreter is allowed to return nouns, which are atoms (positive numbe
 
 But what if my subject was \lstinline[style=inlinecode]{[51 67 89]}, and I wanted to increment every value and return that as \lstinline[style=inlinecode]{[52 68 90]}? How can I do that when it's a cell, and \lstinline[style=inlinecode]{@4@} only seems able to return atoms?
 
-The answer is something that the Nock docs call the “distribution rule” or “implicit cons” (hello, fellow LISPers!), but that I find easiest to think of as the “Cell-Maker Rule”.
+The answer is something that the Nock docs call the “distribution rule” or “implicit cons” (hello, fellow \textsc{lisp}ers!), but that I find easiest to think of as the “Cell-Maker Rule”.
 
 \subsubsection{A Quick Detour into Nock Formulas}
 
@@ -846,7 +846,7 @@ The function/opcode \lstinline[style=inlinecode]{@2@} is designed to handle this
   \item  run that 2nd function against the new environment/subject from step (1)
 \end{enumerate}
 
-Note that the pseudocode for \lstinline[style=inlinecode]{@2@} has nested `*`s.
+Note that the pseudocode for \lstinline[style=inlinecode]{@2@} has nested \lstinline[style=inlinecode]{*}s.
 
 \begin{lstlisting}[style=listingblock]
 *[*[a b] *[a c]]
@@ -921,7 +921,7 @@ We also see how Hoon/Nock lend themselves well to throwing around chunks of code
 
 \subsection{Summary of Fundamental Opcodes}
 
-You now have seen all the fundamental functions/opcodes in Nock. In the next part, I'll introduce the remaining functions, which no longer need pseudocode: we have enough scaffolding now to build the rest of Nock from Nock itself. Instead, these new opcodes will just be shortcuts/macros/code expansions building on opcodes \lstinline[style=inlinecode]{@0@}-\lstinline[style=inlinecode]{@5@}.
+You now have seen all the fundamental functions/opcodes in Nock. In the next part, I'll introduce the remaining functions, which no longer need pseudocode: we have enough scaffolding now to build the rest of Nock from Nock itself. Instead, these new opcodes will just be shortcuts/macros/code expansions building on opcodes \lstinline[style=inlinecode]{@0@}--\lstinline[style=inlinecode]{@5@}.
 
 %If you already feel like you're comfortable with Nock now, you can skip my Part 2, and jump directly to the section of the [Nock Explanation](https://urbit.org/docs/tutorials/nock/explanation/) titled **Sugar** to see the rest of the opcodes explained.
 
@@ -1480,14 +1480,14 @@ Jet registration in Hoon usually looks like this:
   ...
 \end{lstlisting}
 
-\noindent
-\lstinline[style=inlinecode]{~/} ``fassig'' uses Nock \lstinline[style=inlinecode]{@11@} to pass the value \lstinline[style=inlinecode]{%my-function} to the interpreter, where it is associated with the C code that produces the product of \lstinline[style=inlinecode]{my-function}.
+\noindent \sloppy
+The Hoon rune \lstinline[style=inlinecode]{~/} fassig uses Nock \lstinline[style=inlinecode]{@11@} to pass the value \lstinline[style=inlinecode]{%my-function} to the interpreter, where it is associated with the C code that produces the product of \lstinline[style=inlinecode]{my-function}.
 
 \subsection{Nock in Hoon}
 
-In Hoon, you can acquire the Nock code for any function by using the \lstinline[style=inlinecode]{!=} ``zaptis'' rune.  Since this produces Nock code complete with gate calls, you may also find it helpful to cast a data type as a noun using \lstinline[style=inlinecode]{^-  *}, which will show you the raw Nock code for that value.
+In Hoon, you can acquire the Nock code for any function by using the \lstinline[style=inlinecode]{!=} zaptis rune.  Since this produces Nock code complete with gate calls, you may also find it helpful to cast a data type as a noun using \lstinline[style=inlinecode]{^-  *}, which will show you the raw Nock code for that value.
 
-As you have seen, you can also evaluate raw Nock using the \lstinline[style=inlinecode]{.*} ``dottar'' rune, which evaluates to Nock opcode \lstinline[style=inlinecode]{@2@}.  Other Nock runes in Hoon include \lstinline[style=inlinecode]{.+}, which is opcode \lstinline[style=inlinecode]{@4@}; \lstinline[style=inlinecode]{.=}, which is opcode \lstinline[style=inlinecode]{@5@}; and \lstinline[style=inlinecode]{.?}, which is opcode \lstinline[style=inlinecode]{@3@}.  Fake opcode \lstinline[style=inlinecode]{@12@} is not actually Nock, but is used in a virtualization context to resolve values that may not be available in the current subject.
+As you have seen, you can also evaluate raw Nock using the \lstinline[style=inlinecode]{.*} dottar rune, which evaluates to Nock opcode \lstinline[style=inlinecode]{@2@}.  Other Nock runes in Hoon include \lstinline[style=inlinecode]{.+} dotlus, which is opcode \lstinline[style=inlinecode]{@4@}; \lstinline[style=inlinecode]{.=} dottis, which is opcode \lstinline[style=inlinecode]{@5@}; and \lstinline[style=inlinecode]{.?} dotwut, which is opcode \lstinline[style=inlinecode]{@3@}.  Fake opcode \lstinline[style=inlinecode]{@12@} is not actually Nock, but is used in a virtualization context to resolve values that may not be available in the current subject.
 
 \section{The Core as Design Pattern}
 
@@ -1620,8 +1620,9 @@ As in the first example, we use the \lstinline[style=inlinecode]{@10@} opcode to
 > .*([dec-gate 36] [@10@ [@3@ [@0@ 3]] @0@ 2])
 [[@7@ [@0@ 3] @6@ [@5@ [@0@ 1] @1@ 0] [@0@ 0] @6@ [@3@ @0@ 1] [@0@ 0] @8@ [@1@ 0] @8@ [@1@ 6 [@5@ [@0@ 7] @4@ @0@ 6] [@0@ 6] @9@ 2 [@0@ 2] [@4@ @0@ 6] @0@ 7] @9@ 2 @0@ 1] 36]
 
-::  now use that to set up the subject with a new tail (sample)
-::  and call arm in memory slot 2 (our decrement formula)
+::  now use that to set up the subject with a new
+::  tail (sample) and call arm in memory slot 2
+::  (our decrement formula)
 > .*([dec-gate 36] [@9@ 2 @10@ [@3@ [@0@ 3]] @0@ 2])
 35
 > .*([dec-gate 562] [@9@ 2 @10@ [@3@ [@0@ 3]] @0@ 2])
